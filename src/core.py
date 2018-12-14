@@ -15,22 +15,25 @@ def numbers(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text=str(bin(int(update.message.text))))
 
 
+logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
+
 if os.path.isfile("token"):
     with open("token") as token_file:
         private_token = token_file.readline()
 
-# TODO: handle invalid token
-updater = Updater(token=private_token)
-dispatcher = updater.dispatcher
-logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
+    updater = Updater(token=private_token)
 
-start_handler = CommandHandler("start", start)
-numbers_handler = MessageHandler(Filters.regex("^(-?[1-9]+\d*)$|^0$"), numbers)
-echo_handler = MessageHandler(Filters.text, echo)
+    dispatcher = updater.dispatcher
 
-dispatcher.add_handler(start_handler)
-dispatcher.add_handler(numbers_handler)
-dispatcher.add_handler(echo_handler)
+    start_handler = CommandHandler("start", start)
+    numbers_handler = MessageHandler(Filters.regex("^(-?[1-9]+\d*)$|^0$"), numbers) # matches integers
+    echo_handler = MessageHandler(Filters.text, echo)
 
-updater.start_polling()
-updater.idle()
+    dispatcher.add_handler(start_handler)
+    dispatcher.add_handler(numbers_handler)
+    dispatcher.add_handler(echo_handler)
+
+    updater.start_polling()
+    updater.idle()
+else:
+    logging.error("can't find the token file")
