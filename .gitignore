@@ -1,2 +1,5 @@
 # vscode
 .vscode
+
+# compiled python files
+__pycache__
