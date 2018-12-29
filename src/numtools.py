@@ -10,10 +10,10 @@ class Number:
     def __init__(self, s: str):
         s = s.lstrip().lower()
 
-        if s.startswith("0x") != -1:
+        if s.startswith("0x") == True or s.startswith("-0x"):
             self.number = int(s, 16)
             self.numeral_system = NumeralSystem.Hexadecimal
-        elif s.startswith("0b") != -1:
+        elif s.startswith("0b") == True or s.startswith("-0b"):
             self.number = int(s, 2)
             self.numeral_system = NumeralSystem.Binary
         else:
@@ -23,13 +23,11 @@ class Number:
     def to_decimal(self) -> str:
         return str(self.number)
 
-    def to_binary(self) -> str:
-        # TODO: implement 
-        return "0b111111"
+    def to_binary(self) -> str: 
+        return bin(self.number)
 
     def to_hex(self) -> str:
-        # TODO: implement 
-        return "0xaffa6"
+        return hex(self.number)
 
     def __str__(self):
         return str(self.number)
